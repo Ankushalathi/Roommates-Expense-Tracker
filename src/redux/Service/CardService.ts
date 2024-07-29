@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const userProfileService = createApi({
     reducerPath: "userProfileService",
     baseQuery: fetchBaseQuery({
-        baseUrl: "https://example.com",
+        baseUrl: "https://jsonplaceholder.typicode.com",
     }),
     endpoints: (builder) => ({
         postData: builder.query({
