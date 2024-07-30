@@ -4,10 +4,10 @@ type Props = {
   heading: string;
   description: string;
   userId: string;
-  onDelete: (userId: string) => void; 
+  onDelete: (userId: string) => void;
 };
 
-const MOLCard = ({ heading, description, userId , onDelete  }: Props) => {
+const MOLCard = ({ heading, description, userId, onDelete }: Props) => {
 
   return (
     <div className="grid grid-cols-12 gap-3 items-center">
@@ -27,7 +27,7 @@ const MOLCard = ({ heading, description, userId , onDelete  }: Props) => {
       </div>
       <div className="bg-white p-1 rounded-full h-10  w-10 col-span-1 cursor-pointer">
         <RxCross2
-            onClick={() => onDelete(userId)} // Call onDelete when clicked
+          onClick={() => onDelete(userId)}
           size="2em"
           className="text-red-400"
         />

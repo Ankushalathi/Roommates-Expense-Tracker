@@ -55,19 +55,19 @@ const CardPage = () => {
               </div>
             </div>
           </div>
-          <div className="col-span-9 p-5">
+          <div className="col-span-9 p-5 mt-3">
             <div className="flex flex-col gap-4 w-full">
-              {(isLoading && isFetching) ? Array(6)?.fill(0).map((el: any) => {
+              {(isLoading && isFetching) ? Array(6)?.fill(0)?.map((el: any) => {
                 return (
                   <div className='animate-pulse h-[80px]  rounded-lg bg-slate-400 w-full' >
                   </div>
                 )
               }) : selectedToggle === "Card" ? (
                 <div className="flex flex-col gap-4">
-                  {cardData?.map((el: any, ind: number) => {
+                  {cardData?.map((card: any, ind: number) => {
                     return (
                       <div key={ind}>
-                        <MOLCard description={el?.body} heading={el?.title} userId={el?.id}
+                        <MOLCard description={card?.body} heading={card?.title} userId={card?.id}
                           onDelete={handleDelete}
                         />
                       </div>
@@ -80,10 +80,10 @@ const CardPage = () => {
               ) : (selectedToggle === 'Para' ? (
                 <div>
                   <div className="grid grid-cols-3 gap-10 px-8 pt-2">
-                    {cardData?.map((el: any, ind: number) => {
+                    {cardData?.map((card: any, ind: number) => {
                       return (
                         <div key={ind}>
-                          <ATMBasicCard description={el?.body} heading={el?.title} userId={el?.id} />
+                          <ATMBasicCard description={card?.body} heading={card?.title} userId={card?.id} />
                         </div>
                       );
                     })}

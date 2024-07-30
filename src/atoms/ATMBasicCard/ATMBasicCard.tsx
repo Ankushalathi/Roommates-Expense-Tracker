@@ -12,7 +12,7 @@ const ATMBasicCard = ({ heading, description, userId }: Props) => {
 
     const deleteUserPost = (userId: string) => {
         deletePost(userId).then((res) => {
-            alert(`deleted Successfully user ${userId}`);
+            alert(`user delete successfully ${userId}`);
         });
     };
     return (
@@ -20,7 +20,7 @@ const ATMBasicCard = ({ heading, description, userId }: Props) => {
             <div className="flex justify-end ">
                 <RxCross2
                     onClick={() => deleteUserPost(userId)}
-                    className='text-red-300'
+                    className='text-red-300 cursor-pointer'
                     size="2em"
                 />
             </div>
@@ -34,7 +34,6 @@ const ATMBasicCard = ({ heading, description, userId }: Props) => {
                 alt="image-tag"
             />
             </div>
-
         </div>
     )
 }
