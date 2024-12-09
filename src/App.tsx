@@ -2,14 +2,19 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './App.css';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
-import CardPage from './CardPage/CardPage';
+import ProductPage from './ProductPage/ProductPage';
+import RoommatesExpense from './CardPage/CardPage';
 
 
 const App = () => {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <CardPage />
+      element: <RoommatesExpense />
+    },
+    {
+      path: "/product",
+      element: <ProductPage />
     },
   
   ])
