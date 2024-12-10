@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaArrowRight, FaUserCircle } from "react-icons/fa";
+import { FaArrowRight, FaUserCircle, FaTrash } from "react-icons/fa";
 
 const RoommatesExpense = () => {
   const [contributions, setContributions] = useState([]);
@@ -78,12 +78,13 @@ const RoommatesExpense = () => {
   });
 
   return (
-    <div className="p-6 max-w-5xl mx-auto bg-gray-50 shadow-lg rounded-lg">
-      <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">Roommates Expense Tracker</h1>
-
+    <div className="p-4 sm:p-6 max-w-6xl mx-auto bg-gray-100 min-h-screen">
+      <h1 className="text-4xl font-bold text-center text-indigo-600 mb-8">
+        Roommates Expense Tracker
+      </h1>
       {/* Add Contribution Form */}
-      <div className="bg-white p-6 rounded-xl shadow-md mb-6">
-        <h2 className="text-xl font-semibold mb-4">Add Contribution</h2>
+      <div className="bg-white p-6 rounded-lg shadow-lg mb-8">
+        <h2 className="text-2xl font-semibold mb-4">Add Contribution</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
           <input
             type="text"
@@ -114,7 +115,7 @@ const RoommatesExpense = () => {
           />
           <button
             onClick={handleAddContribution}
-            className="bg-indigo-600 text-white py-3 rounded-lg shadow-lg hover:bg-indigo-700 transition duration-200"
+            className="bg-indigo-600 text-white py-3 rounded-lg shadow-md hover:bg-indigo-700 transition duration-200"
           >
             Add Contribution
           </button>
@@ -122,107 +123,115 @@ const RoommatesExpense = () => {
       </div>
 
       {/* Summary Section */}
-      <div className="bg-white p-6 rounded-xl shadow-md mb-6">
-        <h2 className="text-xl font-semibold mb-4">Summary</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-center">
+      <div className="bg-white p-6 rounded-lg shadow-lg mb-8">
+        <h2 className="text-2xl font-semibold mb-4">Summary</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
           <div className="p-4 bg-indigo-100 rounded-lg shadow-sm">
-            <h3 className="text-xl font-semibold text-indigo-600">Total Expense</h3>
-            <p className="text-3xl text-gray-800">${totalExpense.toFixed(2)}</p>
+            <h3 className="text-lg font-semibold text-indigo-600">Total Expense</h3>
+            <p className="text-3xl font-bold text-gray-800">₹{totalExpense.toFixed(2)}</p>
           </div>
           <div className="p-4 bg-green-100 rounded-lg shadow-sm">
-            <h3 className="text-xl font-semibold text-green-600">Per Person</h3>
-            <p className="text-3xl text-gray-800">${perPersonExpense.toFixed(2)}</p>
+            <h3 className="text-lg font-semibold text-green-600">Per Person</h3>
+            <p className="text-3xl font-bold text-gray-800">₹{perPersonExpense.toFixed(2)}</p>
           </div>
           <div className="p-4 bg-yellow-100 rounded-lg shadow-sm">
-            <h3 className="text-xl font-semibold text-yellow-600">Total Roommates</h3>
-            <p className="text-3xl text-gray-800">{totalPeople}</p>
+            <h3 className="text-lg font-semibold text-yellow-600">Total Roommates</h3>
+            <p className="text-3xl font-bold text-gray-800">{totalPeople}</p>
           </div>
         </div>
       </div>
 
-      {/* Per Person Total Contributions */}
-      <div className="bg-white p-6 rounded-xl shadow-md mb-6">
-        <h2 className="text-xl font-semibold mb-4">Per Person Total Contributions</h2>
-        <table className="min-w-full table-auto border-collapse">
-          <thead className="bg-gray-200">
+      {/* Total Contributions Table */}
+      <div className="bg-white p-6 rounded-lg shadow-lg mb-8 overflow-x-auto">
+        <h2 className="text-2xl font-semibold mb-4">Total Contributions</h2>
+        <table className="min-w-full table-auto">
+          <thead className="bg-gray-200 text-gray-700">
             <tr>
-              <th className="py-3 px-4 border-b text-left">#</th>
-              <th className="py-3 px-4 border-b text-left">Name</th>
-              <th className="py-3 px-4 border-b text-left">Total Contributions</th>
+              <th className="py-3 px-4 text-left">#</th>
+              <th className="py-3 px-4 text-left">Name</th>
+              <th className="py-3 px-4 text-left">Description</th>
+              <th className="py-3 px-4 text-left">Amount</th>
+              <th className="py-3 px-4 text-left">Action</th>
             </tr>
           </thead>
           <tbody>
-            {Object.entries(groupedContributions).map(([name, { total }], index) => (
-              <tr key={name} className="text-center">
-                <td className="py-3 px-4 border-b">{index + 1}</td>
-                <td className="py-3 px-4 border-b">{name}</td>
-                <td className="py-3 px-4 border-b">${total.toFixed(2)}</td>
+            {contributions.map((contribution, index) => (
+              <tr key={contribution.id} className="odd:bg-white even:bg-gray-50">
+                <td className="py-3 px-4">{index + 1}</td>
+                <td className="py-3 px-4">{contribution.name}</td>
+                <td className="py-3 px-4">{contribution.description}</td>
+                <td className="py-3 px-4">₹{contribution.amount.toFixed(2)}</td>
+                <td className="py-3 px-4">
+                  <button
+                    onClick={() => handleDeleteContribution(contribution.id)}
+                    className="bg-red-400 text-white py-2 px-3 rounded-lg shadow-md hover:bg-red-500 transition duration-200 flex items-center justify-center"
+                  >
+                    <FaTrash />
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
 
-    {/* Balances Section */}
-<div className="bg-white p-6 rounded-xl shadow-md mb-6">
-  <h2 className="text-xl font-semibold mb-4">Balances</h2>
-  {balances.length === 0 ? (
-    <p className="text-gray-500">No balances to display.</p>
-  ) : (
-    <table className="min-w-full table-auto border-collapse">
-      <thead className="bg-gray-200">
-        <tr>
-          <th className="py-3 px-4 border-b text-left">#</th>
-          <th className="py-3 px-4 border-b text-left">Name</th>
-          <th className="py-3 px-4 border-b text-left">Total Contributions</th>
-          <th className="py-3 px-4 border-b text-left">Balance</th>
-        </tr>
-      </thead>
-      <tbody>
-        {balances.map((item, index) => (
-          <tr key={item.name} className="text-center">
-            <td className="py-3 px-4 border-b">{index + 1}</td>
-            <td className="py-3 px-4 border-b">{item.name}</td>
-            <td className="py-3 px-4 border-b">${item.total.toFixed(2)}</td>
-            <td
-              className={`py-3 px-4 border-b ${item.balance < 0 ? "text-red-600" : "text-green-600"}`}
-            >
-              ${item.balance.toFixed(2)}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  )}
-</div>
+      {/* Balances Section */}
+      <div className="bg-white p-6 rounded-lg shadow-lg mb-8 overflow-x-auto">
+        <h2 className="text-2xl font-semibold mb-4">Balances</h2>
+        <table className="min-w-full table-auto">
+          <thead className="bg-gray-200 text-gray-700">
+            <tr>
+              <th className="py-3 px-4 text-left">#</th>
+              <th className="py-3 px-4 text-left">Name</th>
+              <th className="py-3 px-4 text-left">Total Contributions</th>
+              <th className="py-3 px-4 text-left">Balance</th>
+            </tr>
+          </thead>
+          <tbody>
+            {balances.map((item, index) => (
+              <tr key={item.name} className="odd:bg-white even:bg-gray-50">
+                <td className="py-3 px-4">{index + 1}</td>
+                <td className="py-3 px-4">{item.name}</td>
+                <td className="py-3 px-4">₹{item.total.toFixed(2)}</td>
+                <td
+                  className={`py-3 px-4 font-semibold ₹{
+                    item.balance < 0 ? "text-red-600" : "text-green-600"
+                  }`}
+                >
+                  ₹{item.balance.toFixed(2)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-{/* Transactions Section */}
-<div className="bg-white p-6 rounded-xl shadow-md">
-  <h2 className="text-xl font-semibold mb-4">Transactions</h2>
-  {transactions.length === 0 ? (
-    <p className="text-gray-500">No transactions to display.</p>
-  ) : (
-    <ul className="space-y-4">
-      {transactions.map((txn, index) => (
-        <li
-          key={index}
-          className="flex items-center justify-between space-x-4 text-lg border-b py-3"
-        >
-          <div className="flex items-center space-x-2">
-            <FaUserCircle className="text-gray-600 w-6 h-6" />
-            <span className="font-semibold text-gray-800">{txn.from}</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <FaArrowRight className="text-gray-500" />
-            <span className="font-semibold text-gray-800">{txn.to}</span>
-          </div>
-          <span className="text-gray-600">paid ${txn.amount}</span>
-        </li>
-      ))}
-    </ul>
-  )}
-</div>
-
+      {/* Transactions Section */}
+      <div className="bg-white p-6 rounded-lg shadow-lg overflow-x-auto">
+        <h2 className="text-2xl font-semibold mb-4">Transactions</h2>
+        {transactions.length === 0 ? (
+          <p className="text-gray-500">No transactions to display.</p>
+        ) : (
+          <ul className="space-y-4">
+            {transactions.map((txn, index) => (
+              <li
+                key={index}
+                className="flex items-center justify-between text-lg border-b py-3"
+              >
+                <div className="flex items-center space-x-2">
+                  <FaUserCircle className="text-gray-600 w-6 h-6" />
+                  <span className="font-semibold text-gray-800">{txn.from}</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <FaArrowRight className="text-gray-500" />
+                  <span className="font-semibold text-gray-800">{txn.to}</span>
+                </div>
+                <span className="text-indigo-600 font-bold">₹{txn.amount}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 };
